@@ -1,0 +1,45 @@
+{
+  "name": "ml-regression-multivariate-linear",
+  "version": "0.0.0",
+  "description": "Multivariate linear regression",
+  "main": "lib/index.js",
+  "module": "src/index.js",
+  "files": [
+    "lib",
+    "src"
+  ],
+  "scripts": {
+    "eslint": "eslint src",
+    "eslint-fix": "npm run eslint -- --fix",
+    "prepublish": "rollup -c",
+    "test": "run-s testonly eslint",
+    "testonly": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mljs/regression-multivariate-linear.git"
+  },
+  "keywords": [],
+  "author": "Michaël Zasso",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mljs/regression-multivariate-linear/issues"
+  },
+  "homepage": "https://github.com/mljs/regression-multivariate-linear#readme",
+  "jest": {
+    "testEnvironment": "node"
+  },
+  "devDependencies": {
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.24.1",
+    "eslint": "^4.1.1",
+    "eslint-config-cheminfo": "^1.8.0",
+    "eslint-plugin-no-only-tests": "^2.0.0",
+    "jest": "^20.0.4",
+    "npm-run-all": "^4.0.2",
+    "rollup": "^0.43.0"
+  },
+  "dependencies": {
+    "ml-matrix": "^3.0.0",
+    "ml-regression-base": "^1.2.0"
+  }
+}
