@@ -31,4 +31,15 @@ describe('multivariate linear regression', () => {
             expect(mlr.weights[i][0]).toBeCloseTo(expectedWeights[i]);
         }
     });
+
+    it('toJSON and load', () => {
+        const mlr = new MLR(
+            [[0, 0], [1, 2], [2, 3], [3, 4]],
+            [[0, 0, 0], [2, 4, 3], [4, 6, 5], [6, 8, 7]]
+        );
+        const json = JSON.parse(JSON.stringify(mlr));
+        const newMlr = MLR.load(json);
+        expect(newMlr.predict([2, 3]).map(Math.round)).toEqual([4, 6, 5]);
+        expect(newMlr.predict([4, 4]).map(Math.round)).toEqual([8, 8, 8]);
+    });
 });

@@ -4,9 +4,15 @@ import BaseRegression from 'ml-regression-base';
 export default class MultivariateLinearRegression extends BaseRegression {
     constructor(x, y) {
         super();
-        this.weights = solve(x, y).to2DArray();
-        this.inputs = x[0].length;
-        this.outputs = y[0].length;
+        if (x === true) {
+            this.weights = y.weights;
+            this.inputs = y.inputs;
+            this.outputs = y.outputs;
+        } else {
+            this.weights = solve(x, y).to2DArray();
+            this.inputs = x[0].length;
+            this.outputs = y[0].length;
+        }
     }
 
     predict(x) {
@@ -32,5 +38,21 @@ export default class MultivariateLinearRegression extends BaseRegression {
             }
         }
         return result;
+    }
+
+    toJSON() {
+        return {
+            name: 'multivariateLinearRegression',
+            weights: this.weights,
+            inputs: this.inputs,
+            outputs: this.outputs
+        };
+    }
+
+    static load(model) {
+        if (model.name !== 'multivariateLinearRegression') {
+            throw new Error('not a MLR model');
+        }
+        return new MultivariateLinearRegression(true, model);
     }
 }
