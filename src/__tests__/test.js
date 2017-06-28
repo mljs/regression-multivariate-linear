@@ -69,24 +69,24 @@ describe('multivariate linear regression', () => {
     });
 
     it('datamining test 1-1', () => {
-        const X = [[4.47],[208.30],[3400.00]];
-        const Y = [[0.51],[105.66],[1800.00]];
+        const X = [[4.47], [208.30], [3400.00]];
+        const Y = [[0.51], [105.66], [1800.00]];
         const mlr = new MLR(X, Y, {intercept: true});
         expect(mlr.weights[0][0]).toBeCloseTo(0.53);
         expect(mlr.weights[1][0]).toBeCloseTo(-3.29);
     });
 
     it('datamining test 1-2', () => {
-        const X = [[4.47,1],[208.30,1],[3400.00,1]];
-        const Y = [[0.51],[105.66],[1800.00]];
+        const X = [[4.47, 1], [208.30, 1], [3400.00, 1]];
+        const Y = [[0.51], [105.66], [1800.00]];
         const mlr = new MLR(X, Y, {intercept: false});
         expect(mlr.weights[0][0]).toBeCloseTo(0.53);
         expect(mlr.weights[1][0]).toBeCloseTo(-3.29);
     });
 
     it('datamining test 2', () => {
-        const X = [[1, 1, 1],[2, 1, 1],[3, 1, 1]];
-        const Y = [[2, 3],[4, 6],[6, 9]];
+        const X = [[1, 1, 1], [2, 1, 1], [3, 1, 1]];
+        const Y = [[2, 3], [4, 6], [6, 9]];
         const mlr = new MLR(X, Y);
         expect(mlr.weights[0][0]).toBeCloseTo(2);
         expect(mlr.weights[0][1]).toBeCloseTo(3);
