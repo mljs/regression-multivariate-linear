@@ -1,17 +1,27 @@
-import {solve} from 'ml-matrix';
+import Matrix, {SVD} from 'ml-matrix';
 import BaseRegression from 'ml-regression-base';
 
 export default class MultivariateLinearRegression extends BaseRegression {
-    constructor(x, y) {
+    constructor(x, y, options = {}) {
+        const {
+            intercept = true
+        } = options;
         super();
         if (x === true) {
             this.weights = y.weights;
             this.inputs = y.inputs;
             this.outputs = y.outputs;
+            this.intercept = y.intercept;
         } else {
-            this.weights = solve(x, y).to2DArray();
+            if (intercept) {
+                x = new Matrix(x);
+                x.addColumn(new Array(x.length).fill(1));
+            }
+            this.weights = new SVD(x, {autoTranspose: true}).solve(y).to2DArray();
             this.inputs = x[0].length;
             this.outputs = y[0].length;
+            if (intercept) this.inputs--;
+            this.intercept = intercept;
         }
     }
 
@@ -31,9 +41,16 @@ export default class MultivariateLinearRegression extends BaseRegression {
     }
 
     _predict(x) {
-        const result = new Array(this.outputs).fill(0);
-        for (var i = 0; i < this.inputs; i++) {
-            for (var j = 0; j < this.outputs; j++) {
+        const result = new Array(this.outputs);
+        if (this.intercept) {
+            for (let i = 0; i < this.outputs; i++) {
+                result[i] = this.weights[this.inputs][i];
+            }
+        } else {
+            result.fill(0);
+        }
+        for (let i = 0; i < this.inputs; i++) {
+            for (let j = 0; j < this.outputs; j++) {
                 result[j] += this.weights[i][j] * x[i];
             }
         }
@@ -45,7 +62,8 @@ export default class MultivariateLinearRegression extends BaseRegression {
             name: 'multivariateLinearRegression',
             weights: this.weights,
             inputs: this.inputs,
-            outputs: this.outputs
+            outputs: this.outputs,
+            intercept: this.intercept
         };
     }
 
