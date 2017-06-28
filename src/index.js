@@ -57,6 +57,10 @@ export default class MultivariateLinearRegression extends BaseRegression {
         return result;
     }
 
+    score() {
+        throw new Error('score method is not implemented yet');
+    }
+
     toJSON() {
         return {
             name: 'multivariateLinearRegression',
