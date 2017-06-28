@@ -10,6 +10,19 @@ Multivariate linear regression.
 
 `$ npm install --save ml-regression-multivariate-linear`
 
+## API
+
+### new MLR(x, y[, options])
+
+__Arguments__
+
+* `x`: Matrix containing the inputs
+* `y`: Matrix containing the outputs
+
+__Options__
+
+* `intercept`: boolean indicating if intercept terms should be computed (default: true)
+
 ## Usage
 
 ```js
