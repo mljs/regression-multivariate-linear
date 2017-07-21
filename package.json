@@ -11,7 +11,7 @@
   "scripts": {
     "eslint": "eslint src",
     "eslint-fix": "npm run eslint -- --fix",
-    "prepublish": "rollup -c",
+    "prepublishOnly": "rollup -c",
     "test": "run-s testonly eslint",
     "testonly": "jest"
   },
@@ -36,10 +36,10 @@
     "eslint-plugin-no-only-tests": "^2.0.0",
     "jest": "^20.0.4",
     "npm-run-all": "^4.0.2",
-    "rollup": "^0.43.0"
+    "rollup": "^0.45.2"
   },
   "dependencies": {
-    "ml-matrix": "^3.0.0",
+    "ml-matrix": "^5.0.0",
     "ml-regression-base": "^1.2.0"
   }
 }
