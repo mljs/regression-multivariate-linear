@@ -17,11 +17,26 @@ export default class MultivariateLinearRegression extends BaseRegression {
                 x = new Matrix(x);
                 x.addColumn(new Array(x.length).fill(1));
             }
-            this.weights = new SVD(x, {autoTranspose: true}).solve(y).to2DArray();
+            const beta = new _mlMatrix.SVD(x, { autoTranspose: true }).solve(y);
+            this.weights = beta.to2DArray();
             this.inputs = x[0].length;
             this.outputs = y[0].length;
             if (intercept) this.inputs--;
             this.intercept = intercept;
+			
+			/* 
+			 * Let's add some basic statistics about the beta's to be able to interpret.
+			 * source: http://dept.stat.lsa.umich.edu/~kshedden/Courses/Stat401/Notes/401-multreg.pdf
+			 * validated against Excel Regression AddIn
+			 */
+            const fittedValues = x.mmul(beta);
+            const my = new _mlMatrix2.default(y);
+            const residuals = my.addM(fittedValues.neg());
+            const ro = residuals.to2DArray().map(ri => Math.pow(ri[0],2)).reduce((a,b) => a + b) / (y.length - x.columns);
+            this.std_error = Math.sqrt(ro);
+            this.std_error_matrix = x.transpose().mmul(x).pseudoInverse().mul(ro);
+            this.std_errors = this.std_error_matrix.diagonal().map(d => Math.sqrt(d));
+            this.tstats = this.weights.map((d, i) => this.std_errors[i] === 0 ? 0 : d[0] / this.std_errors[i]);
         }
     }
 
@@ -67,7 +82,10 @@ export default class MultivariateLinearRegression extends BaseRegression {
             weights: this.weights,
             inputs: this.inputs,
             outputs: this.outputs,
-            intercept: this.intercept
+            intercept: this.intercept,
+            std_error: this.std_error,
+            std_errors: this.std_errors,
+            tstats: this.tstats
         };
     }
 
