@@ -17,7 +17,7 @@ export default class MultivariateLinearRegression extends BaseRegression {
                 x = new Matrix(x);
                 x.addColumn(new Array(x.length).fill(1));
             }
-            const beta = new _mlMatrix.SVD(x, { autoTranspose: true }).solve(y);
+            const beta = new SVD(x, { autoTranspose: true }).solve(y);
             this.weights = beta.to2DArray();
             this.inputs = x[0].length;
             this.outputs = y[0].length;
@@ -30,11 +30,11 @@ export default class MultivariateLinearRegression extends BaseRegression {
 			 * validated against Excel Regression AddIn
 			 */
             const fittedValues = x.mmul(beta);
-            const my = new _mlMatrix2.default(y);
+            const my = new Matrix(y);
             const residuals = my.addM(fittedValues.neg());
             const ro = residuals.to2DArray().map(ri => Math.pow(ri[0],2)).reduce((a,b) => a + b) / (y.length - x.columns);
             this.std_error = Math.sqrt(ro);
-            this.std_error_matrix = x.transpose().mmul(x).pseudoInverse().mul(ro);
+            this.std_error_matrix = x.transposeView().mmul(x).pseudoInverse().mul(ro);
             this.std_errors = this.std_error_matrix.diagonal().map(d => Math.sqrt(d));
             this.tstats = this.weights.map((d, i) => this.std_errors[i] === 0 ? 0 : d[0] / this.std_errors[i]);
         }
