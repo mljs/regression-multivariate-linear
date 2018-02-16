@@ -13,8 +13,8 @@ export default class MultivariateLinearRegression extends BaseRegression {
             this.outputs = y.outputs;
             this.intercept = y.intercept;
         } else {
+			x = new Matrix(x);
             if (intercept) {
-                x = new Matrix(x);
                 x.addColumn(new Array(x.length).fill(1));
             }
             const beta = new SVD(x, { autoTranspose: true }).solve(y);
