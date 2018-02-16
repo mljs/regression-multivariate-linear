@@ -13,7 +13,8 @@ export default class MultivariateLinearRegression extends BaseRegression {
             this.outputs = y.outputs;
             this.intercept = y.intercept;
         } else {
-			x = new Matrix(x);
+            x = new Matrix(x);
+            y = new Matrix(y);
             if (intercept) {
                 x.addColumn(new Array(x.length).fill(1));
             }
@@ -23,20 +24,18 @@ export default class MultivariateLinearRegression extends BaseRegression {
             this.outputs = y[0].length;
             if (intercept) this.inputs--;
             this.intercept = intercept;
-			
-			/* 
-			 * Let's add some basic statistics about the beta's to be able to interpret.
-			 * source: http://dept.stat.lsa.umich.edu/~kshedden/Courses/Stat401/Notes/401-multreg.pdf
-			 * validated against Excel Regression AddIn
-			 */
+            /* 
+             * Let's add some basic statistics about the beta's to be able to interpret them.
+             * source: http://dept.stat.lsa.umich.edu/~kshedden/Courses/Stat401/Notes/401-multreg.pdf
+             * validated against Excel Regression AddIn
+             */
             const fittedValues = x.mmul(beta);
-            const my = new Matrix(y);
             const residuals = my.addM(fittedValues.neg());
-            const ro = residuals.to2DArray().map(ri => Math.pow(ri[0],2)).reduce((a,b) => a + b) / (y.length - x.columns);
-            this.std_error = Math.sqrt(ro);
-            this.std_error_matrix = x.transposeView().mmul(x).pseudoInverse().mul(ro);
-            this.std_errors = this.std_error_matrix.diagonal().map(d => Math.sqrt(d));
-            this.tstats = this.weights.map((d, i) => this.std_errors[i] === 0 ? 0 : d[0] / this.std_errors[i]);
+            const variance = residuals.to2DArray().map(ri => Math.pow(ri[0],2)).reduce((a,b) => a + b) / (y.length - x.columns);
+            this.stdError = Math.sqrt(variance);
+            this.stdErrorMatrix = x.transposeView().mmul(x).pseudoInverse().mul(variance);
+            this.stdErrors = this.stdErrorMatrix.diagonal().map(d => Math.sqrt(d));
+            this.tStats = this.weights.map((d, i) => this.stdErrors[i] === 0 ? 0 : d[0] / this.stdErrors[i]);
         }
     }
 
@@ -83,9 +82,20 @@ export default class MultivariateLinearRegression extends BaseRegression {
             inputs: this.inputs,
             outputs: this.outputs,
             intercept: this.intercept,
-            std_error: this.std_error,
-            std_errors: this.std_errors,
-            tstats: this.tstats
+            summary: {
+                regressionStatistics: {
+                    standardError: this.stdError,
+                    observations: this.y.length
+                },
+                variables: this.weights.map((d, i) => {
+                    return {
+                        label: i === this.weights.length ? 'Intercept' : 'X Variable ' + (i + 1),
+                        coefficients: d,
+                        standardError: this.stdErrors[i],
+                        tStat: this.tStats[i],
+                    };
+                })
+            }
         };
     }
 
