@@ -13,15 +13,28 @@ export default class MultivariateLinearRegression extends BaseRegression {
             this.outputs = y.outputs;
             this.intercept = y.intercept;
         } else {
+            x = new Matrix(x);
             if (intercept) {
-                x = new Matrix(x);
                 x.addColumn(new Array(x.length).fill(1));
             }
-            this.weights = new SVD(x, {autoTranspose: true}).solve(y).to2DArray();
+            const beta = new SVD(x, {autoTranspose: true}).solve(y);
+            this.weights = beta.to2DArray();
             this.inputs = x[0].length;
             this.outputs = y[0].length;
             if (intercept) this.inputs--;
             this.intercept = intercept;
+            /* 
+             * Let's add some basic statistics about the beta's to be able to interpret them.
+             * source: http://dept.stat.lsa.umich.edu/~kshedden/Courses/Stat401/Notes/401-multreg.pdf
+             * validated against Excel Regression AddIn
+             */
+            const fittedValues = x.mmul(beta);
+            const residuals = new Matrix(y).addM(fittedValues.neg());
+            const variance = residuals.to2DArray().map(ri => Math.pow(ri[0], 2)).reduce((a, b) => a + b) / (y.length - x.columns);
+            this.stdError = Math.sqrt(variance);
+            this.stdErrorMatrix = x.transposeView().mmul(x).pseudoInverse().mul(variance);
+            this.stdErrors = this.stdErrorMatrix.diagonal().map(d => Math.sqrt(d));
+            this.tStats = this.weights.map((d, i) => this.stdErrors[i] === 0 ? 0 : d[0] / this.stdErrors[i]);
         }
     }
 
@@ -67,7 +80,21 @@ export default class MultivariateLinearRegression extends BaseRegression {
             weights: this.weights,
             inputs: this.inputs,
             outputs: this.outputs,
-            intercept: this.intercept
+            intercept: this.intercept,
+            summary: {
+                regressionStatistics: {
+                    standardError: this.stdError,
+                    observations: this.outputs
+                },
+                variables: this.weights.map((d, i) => {
+                    return {
+                        label: i === this.weights.length ? 'Intercept' : 'X Variable ' + (i + 1),
+                        coefficients: d,
+                        standardError: this.stdErrors[i],
+                        tStat: this.tStats[i],
+                    };
+                })
+            }
         };
     }
 
