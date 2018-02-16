@@ -9,7 +9,7 @@
     "src"
   ],
   "scripts": {
-    "eslint": "eslint src",
+    "eslint": "eslint src data",
     "eslint-fix": "npm run eslint -- --fix",
     "prepublishOnly": "rollup -c",
     "test": "run-s testonly eslint",
@@ -32,8 +32,9 @@
   "devDependencies": {
     "babel-plugin-transform-es2015-modules-commonjs": "^6.24.1",
     "eslint": "^4.1.1",
-    "eslint-config-cheminfo": "^1.8.0",
-    "eslint-plugin-no-only-tests": "^2.0.0",
+    "eslint-config-cheminfo": "^1.15.1",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-jest": "^21.12.1",
     "jest": "^20.0.4",
     "npm-run-all": "^4.0.2",
     "rollup": "^0.45.2"
