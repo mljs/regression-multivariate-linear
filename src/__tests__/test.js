@@ -87,15 +87,32 @@ describe('multivariate linear regression', () => {
     expect(mlr.weights[1][0]).toBeCloseTo(-3.29);
   });
 
-  it('datamining test 2', () => {
-    const X = [[1, 1, 1], [2, 1, 1], [3, 1, 1]];
-    const Y = [[2, 3], [4, 6], [6, 9]];
-    const mlr = new MLR(X, Y);
-    expect(mlr.weights[0][0]).toBeCloseTo(2);
-    expect(mlr.weights[0][1]).toBeCloseTo(3);
-    expect(mlr.weights[1][0]).toBeCloseTo(0);
-    expect(mlr.weights[1][1]).toBeCloseTo(0);
-    expect(mlr.weights[2][0]).toBeCloseTo(0);
-    expect(mlr.weights[2][1]).toBeCloseTo(0);
-  });
+    it('datamining test 2', () => {
+        const X = [[1, 1, 1], [2, 1, 1], [3, 1, 1]];
+        const Y = [[2, 3], [4, 6], [6, 9]];
+        const mlr = new MLR(X, Y);
+        expect(mlr.weights[0][0]).toBeCloseTo(2);
+        expect(mlr.weights[0][1]).toBeCloseTo(3);
+        expect(mlr.weights[1][0]).toBeCloseTo(0);
+        expect(mlr.weights[1][1]).toBeCloseTo(0);
+        expect(mlr.weights[2][0]).toBeCloseTo(0);
+        expect(mlr.weights[2][1]).toBeCloseTo(0);
+    });
+
+    it('datamining statistics test', () => {
+        const X = [[3, 1], [4, 2], [10, 3], [6, 4], [7, 5]];
+        const Y = [[19], [28], [37], [46], [40]];
+        const mlr = new MLR(X, Y).toJSON();
+        expect(mlr.summary.regressionStatistics.standardError).toBeCloseTo(6.27);
+        expect(mlr.summary.variables[0].coefficients).toBeCloseTo(0.75);
+        expect(mlr.summary.variables[0].standardError).toBeCloseTo(1.40);
+        expect(mlr.summary.variables[0].tStat).toBeCloseTo(0.53);
+        expect(mlr.summary.variables[1].coefficients).toBeCloseTo(5.25);
+        expect(mlr.summary.variables[1].standardError).toBeCloseTo(2.43);
+        expect(mlr.summary.variables[1].tStat).toBeCloseTo(2.16);
+        expect(mlr.summary.variables[2].label).toEqual("Intercept");
+        expect(mlr.summary.variables[2].coefficients).toBeCloseTo(13.75);
+        expect(mlr.summary.variables[2].standardError).toBeCloseTo(7.81);
+        expect(mlr.summary.variables[2].tStat).toBeCloseTo(1.76);
+    });
 });
