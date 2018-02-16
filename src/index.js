@@ -92,7 +92,7 @@ export default class MultivariateLinearRegression extends BaseRegression {
                         label: i === this.weights.length ? 'Intercept' : 'X Variable ' + (i + 1),
                         coefficients: d,
                         standardError: this.stdErrors[i],
-                        tStat: this.tStats[i],
+                        tStat: this.tStats[i]
                     };
                 })
             }
