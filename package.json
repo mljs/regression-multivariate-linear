@@ -12,8 +12,8 @@
     "eslint": "eslint src data",
     "eslint-fix": "npm run eslint -- --fix",
     "prepublishOnly": "rollup -c",
-    "test": "run-s testonly eslint",
-    "testonly": "jest"
+    "test": "run-s test-only eslint",
+    "test-only": "jest"
   },
   "repository": {
     "type": "git",
@@ -30,17 +30,17 @@
     "testEnvironment": "node"
   },
   "devDependencies": {
-    "babel-plugin-transform-es2015-modules-commonjs": "^6.24.1",
-    "eslint": "^4.1.1",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
+    "eslint": "^4.17.0",
     "eslint-config-cheminfo": "^1.15.1",
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-jest": "^21.12.1",
-    "jest": "^20.0.4",
-    "npm-run-all": "^4.0.2",
-    "rollup": "^0.45.2"
+    "jest": "^22.3.0",
+    "npm-run-all": "^4.1.2",
+    "rollup": "^0.56.0"
   },
   "dependencies": {
-    "ml-matrix": "^5.0.0",
+    "ml-matrix": "^5.0.1",
     "ml-regression-base": "^1.2.0"
   }
 }

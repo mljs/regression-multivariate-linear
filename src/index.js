@@ -21,7 +21,7 @@ export default class MultivariateLinearRegression extends BaseRegression {
       this.outputs = y[0].length;
       if (intercept) this.inputs--;
       this.intercept = intercept;
-      /* 
+      /*
        * Let's add some basic statistics about the beta's to be able to interpret them.
        * source: http://dept.stat.lsa.umich.edu/~kshedden/Courses/Stat401/Notes/401-multreg.pdf
        * validated against Excel Regression AddIn
