@@ -14,7 +14,6 @@ export default class MultivariateLinearRegression extends BaseRegression {
             this.intercept = y.intercept;
         } else {
             x = new Matrix(x);
-            y = new Matrix(y);
             if (intercept) {
                 x.addColumn(new Array(x.length).fill(1));
             }
@@ -30,7 +29,7 @@ export default class MultivariateLinearRegression extends BaseRegression {
              * validated against Excel Regression AddIn
              */
             const fittedValues = x.mmul(beta);
-            const residuals = my.addM(fittedValues.neg());
+            const residuals = new Matrix(y).addM(fittedValues.neg());
             const variance = residuals.to2DArray().map(ri => Math.pow(ri[0],2)).reduce((a,b) => a + b) / (y.length - x.columns);
             this.stdError = Math.sqrt(variance);
             this.stdErrorMatrix = x.transposeView().mmul(x).pseudoInverse().mul(variance);
