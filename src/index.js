@@ -84,7 +84,7 @@ export default class MultivariateLinearRegression extends BaseRegression {
             summary: {
                 regressionStatistics: {
                     standardError: this.stdError,
-                    observations: this.y.length
+                    observations: this.outputs
                 },
                 variables: this.weights.map((d, i) => {
                     return {
