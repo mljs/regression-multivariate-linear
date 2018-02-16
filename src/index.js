@@ -25,6 +25,7 @@ export default class MultivariateLinearRegression extends BaseRegression {
        * Let's add some basic statistics about the beta's to be able to interpret them.
        * source: http://dept.stat.lsa.umich.edu/~kshedden/Courses/Stat401/Notes/401-multreg.pdf
        * validated against Excel Regression AddIn
+       * test: "datamining statistics test"
        */
       const fittedValues = x.mmul(beta);
       const residuals = new Matrix(y).addM(fittedValues.neg());
@@ -98,7 +99,9 @@ export default class MultivariateLinearRegression extends BaseRegression {
         variables: this.weights.map((d, i) => {
           return {
             label:
-              i === this.weights.length ? 'Intercept' : `X Variable ${i + 1}`,
+              i === this.weights.length - 1
+                ? 'Intercept'
+                : `X Variable ${i + 1}`,
             coefficients: d,
             standardError: this.stdErrors[i],
             tStat: this.tStats[i]
