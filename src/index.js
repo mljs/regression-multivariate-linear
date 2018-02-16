@@ -17,7 +17,7 @@ export default class MultivariateLinearRegression extends BaseRegression {
             if (intercept) {
                 x.addColumn(new Array(x.length).fill(1));
             }
-            const beta = new SVD(x, { autoTranspose: true }).solve(y);
+            const beta = new SVD(x, {autoTranspose: true}).solve(y);
             this.weights = beta.to2DArray();
             this.inputs = x[0].length;
             this.outputs = y[0].length;
@@ -30,7 +30,7 @@ export default class MultivariateLinearRegression extends BaseRegression {
              */
             const fittedValues = x.mmul(beta);
             const residuals = new Matrix(y).addM(fittedValues.neg());
-            const variance = residuals.to2DArray().map(ri => Math.pow(ri[0],2)).reduce((a,b) => a + b) / (y.length - x.columns);
+            const variance = residuals.to2DArray().map(ri => Math.pow(ri[0], 2)).reduce((a, b) => a + b) / (y.length - x.columns);
             this.stdError = Math.sqrt(variance);
             this.stdErrorMatrix = x.transposeView().mmul(x).pseudoInverse().mul(variance);
             this.stdErrors = this.stdErrorMatrix.diagonal().map(d => Math.sqrt(d));
