@@ -22,6 +22,7 @@ __Arguments__
 __Options__
 
 * `intercept`: boolean indicating if intercept terms should be computed (default: true)
+* `statistics`: boolean for calculating and returning regression statistics (default: true)
 
 ## Usage
 
