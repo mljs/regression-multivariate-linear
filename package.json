@@ -9,11 +9,13 @@
     "src"
   ],
   "scripts": {
+    "compile": "rollup -c",
     "eslint": "eslint src data",
     "eslint-fix": "npm run eslint -- --fix",
-    "prepublishOnly": "rollup -c",
-    "test": "run-s test-only eslint",
-    "test-only": "jest"
+    "prepublishOnly": "npm run compile",
+    "test": "run-s test-coverage eslint",
+    "test-only": "jest",
+    "test-coverage": "jest --coverage"
   },
   "repository": {
     "type": "git",
