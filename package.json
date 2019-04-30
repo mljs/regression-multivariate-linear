@@ -7,6 +7,7 @@
   "types": "regression-multivariate-linear.d.ts",
   "sideEffects": false,
   "files": [
+    "regression-multivariate-linear.d.ts",
     "lib",
     "src"
   ],
