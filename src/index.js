@@ -1,4 +1,4 @@
-import Matrix, { SVD } from 'ml-matrix';
+import Matrix, { SVD, pseudoInverse, MatrixTransposeView } from 'ml-matrix';
 import BaseRegression from 'ml-regression-base';
 
 export default class MultivariateLinearRegression extends BaseRegression {
@@ -13,13 +13,14 @@ export default class MultivariateLinearRegression extends BaseRegression {
       this.intercept = y.intercept;
     } else {
       x = new Matrix(x);
+      y = Matrix.checkMatrix(y);
       if (intercept) {
-        x.addColumn(new Array(x.length).fill(1));
+        x.addColumn(new Array(x.rows).fill(1));
       }
       const beta = new SVD(x, { autoTranspose: true }).solve(y);
       this.weights = beta.to2DArray();
-      this.inputs = x[0].length;
-      this.outputs = y[0].length;
+      this.inputs = x.columns;
+      this.outputs = y.columns;
       if (intercept) this.inputs--;
       this.intercept = intercept;
       if (statistics) {
@@ -30,22 +31,22 @@ export default class MultivariateLinearRegression extends BaseRegression {
          * test: "datamining statistics test"
          */
         const fittedValues = x.mmul(beta);
-        const residuals = new Matrix(y).addM(fittedValues.neg());
+        const residuals = y.clone().addM(fittedValues.neg());
         const variance =
           residuals
             .to2DArray()
             .map((ri) => Math.pow(ri[0], 2))
             .reduce((a, b) => a + b) /
-          (y.length - x.columns);
+          (y.rows - x.columns);
         this.stdError = Math.sqrt(variance);
-        this.stdErrorMatrix = x
-          .transposeView()
-          .mmul(x)
-          .pseudoInverse()
-          .mul(variance);
-        this.stdErrors = this.stdErrorMatrix.diagonal().map((d) => Math.sqrt(d));
-        this.tStats = this.weights.map(
-          (d, i) => (this.stdErrors[i] === 0 ? 0 : d[0] / this.stdErrors[i])
+        this.stdErrorMatrix = pseudoInverse(
+          new MatrixTransposeView(x).mmul(x)
+        ).mul(variance);
+        this.stdErrors = this.stdErrorMatrix
+          .diagonal()
+          .map((d) => Math.sqrt(d));
+        this.tStats = this.weights.map((d, i) =>
+          (this.stdErrors[i] === 0 ? 0 : d[0] / this.stdErrors[i])
         );
       }
     }
@@ -62,6 +63,12 @@ export default class MultivariateLinearRegression extends BaseRegression {
         }
         return y;
       }
+    } else if (Matrix.isMatrix(x)) {
+      const y = new Matrix(x.rows, this.outputs);
+      for (let i = 0; i < x.rows; i++) {
+        y.setRow(i, this._predict(x.getRow(i)));
+      }
+      return y;
     }
     throw new TypeError('x must be a matrix or array of numbers');
   }
@@ -94,7 +101,7 @@ export default class MultivariateLinearRegression extends BaseRegression {
       inputs: this.inputs,
       outputs: this.outputs,
       intercept: this.intercept,
-      summary: (this.statistics)
+      summary: this.statistics
         ? {
           regressionStatistics: {
             standardError: this.stdError,
@@ -103,16 +110,16 @@ export default class MultivariateLinearRegression extends BaseRegression {
           variables: this.weights.map((d, i) => {
             return {
               label:
-                i === this.weights.length - 1
-                  ? 'Intercept'
-                  : `X Variable ${i + 1}`,
+                  i === this.weights.length - 1
+                    ? 'Intercept'
+                    : `X Variable ${i + 1}`,
               coefficients: d,
               standardError: this.stdErrors[i],
               tStat: this.tStats[i]
             };
           })
         }
-        : undefined,
+        : undefined
     };
   }
 

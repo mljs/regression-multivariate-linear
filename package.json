@@ -4,6 +4,8 @@
   "description": "Multivariate linear regression",
   "main": "lib/index.js",
   "module": "src/index.js",
+  "types": "regression-multivariate-linear.d.ts",
+  "sideEffects": false,
   "files": [
     "lib",
     "src"
@@ -13,7 +15,7 @@
     "eslint": "eslint src data",
     "eslint-fix": "npm run eslint -- --fix",
     "prepublishOnly": "npm run compile",
-    "test": "run-s test-coverage eslint",
+    "test": "npm run test-coverage && npm run eslint",
     "test-only": "jest",
     "test-coverage": "jest --coverage"
   },
@@ -32,17 +34,16 @@
     "testEnvironment": "node"
   },
   "devDependencies": {
-    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
-    "eslint": "^4.17.0",
-    "eslint-config-cheminfo": "^1.15.1",
-    "eslint-plugin-import": "^2.8.0",
-    "eslint-plugin-jest": "^21.12.1",
-    "jest": "^22.3.0",
-    "npm-run-all": "^4.1.2",
-    "rollup": "^0.58.2"
+    "@babel/plugin-transform-modules-commonjs": "^7.4.4",
+    "eslint": "^5.16.0",
+    "eslint-config-cheminfo": "^1.20.1",
+    "eslint-plugin-import": "^2.17.2",
+    "eslint-plugin-jest": "^22.5.1",
+    "jest": "^24.7.1",
+    "rollup": "^1.10.1"
   },
   "dependencies": {
-    "ml-matrix": "^5.1.1",
-    "ml-regression-base": "^1.2.0"
+    "ml-matrix": "^6.0.0",
+    "ml-regression-base": "^2.0.0"
   }
 }
