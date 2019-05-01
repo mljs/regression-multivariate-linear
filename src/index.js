@@ -13,7 +13,7 @@ export default class MultivariateLinearRegression extends BaseRegression {
       this.intercept = y.intercept;
     } else {
       x = new Matrix(x);
-      y = Matrix.checkMatrix(y);
+      y = new Matrix(y);
       if (intercept) {
         x.addColumn(new Array(x.rows).fill(1));
       }

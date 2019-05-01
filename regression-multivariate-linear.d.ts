@@ -12,6 +12,11 @@ declare module 'ml-regression-multivariate-linear' {
   }
 
   export default class MultivariateLinearRegression extends BaseRegression {
+    stdError: number;
+    stdErrorMatrix: Matrix;
+    stdErrors: number[];
+    tStats: number[];
+    
     constructor(
       x: number[][] | AbstractMatrix,
       y: number[][] | AbstractMatrix,
