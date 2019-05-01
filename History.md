@@ -1,3 +1,23 @@
+# [2.0.0](https://github.com/mljs/regression-multivariate-linear/compare/v1.2.0...v2.0.0) (2019-05-01)
+
+
+### Bug Fixes
+
+* add missing fields to TS definitions ([43fdf75](https://github.com/mljs/regression-multivariate-linear/commit/43fdf75))
+* include TS definitions in npm package ([4c49609](https://github.com/mljs/regression-multivariate-linear/commit/4c49609))
+
+
+### chore
+
+* update ml-matrix to 6.0.0 ([4984850](https://github.com/mljs/regression-multivariate-linear/commit/4984850))
+
+
+### BREAKING CHANGES
+
+* Node.js 6 is no longer supported.
+
+
+
 <a name="1.2.0"></a>
 # [1.2.0](https://github.com/mljs/regression-multivariate-linear/compare/v1.1.0...v1.2.0) (2018-05-11)
 
