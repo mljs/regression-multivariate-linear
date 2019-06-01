@@ -1,5 +1,4 @@
 import { AbstractMatrix, Matrix } from 'ml-matrix';
-import BaseRegression from 'ml-regression-base';
 
 declare module 'ml-regression-multivariate-linear' {
   export interface MLRModel {
