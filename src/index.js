@@ -1,10 +1,8 @@
 import Matrix, { SVD, pseudoInverse, MatrixTransposeView } from 'ml-matrix';
-import BaseRegression from 'ml-regression-base';
 
-export default class MultivariateLinearRegression extends BaseRegression {
+export default class MultivariateLinearRegression {
   constructor(x, y, options = {}) {
     const { intercept = true, statistics = true } = options;
-    super();
     this.statistics = statistics;
     if (x === true) {
       this.weights = y.weights;

@@ -44,7 +44,6 @@
     "rollup": "^1.10.1"
   },
   "dependencies": {
-    "ml-matrix": "^6.0.0",
-    "ml-regression-base": "^2.0.0"
+    "ml-matrix": "^6.0.0"
   }
 }
