@@ -1,5 +1,4 @@
 import { AbstractMatrix, Matrix } from 'ml-matrix';
-import BaseRegression from 'ml-regression-base';
 
 declare module 'ml-regression-multivariate-linear' {
   export interface MLRModel {
@@ -11,7 +10,7 @@ declare module 'ml-regression-multivariate-linear' {
     statistics?: boolean;
   }
 
-  export default class MultivariateLinearRegression extends BaseRegression {
+  export default class MultivariateLinearRegression {
     stdError: number;
     stdErrorMatrix: Matrix;
     stdErrors: number[];
