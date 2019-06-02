@@ -1,3 +1,12 @@
+## [2.0.1](https://github.com/mljs/regression-multivariate-linear/compare/v2.0.0...v2.0.1) (2019-06-02)
+
+
+### Bug Fixes
+
+* stop depending on BaseRegression ([#13](https://github.com/mljs/regression-multivariate-linear/issues/13)) ([8be20a4](https://github.com/mljs/regression-multivariate-linear/commit/8be20a4))
+
+
+
 # [2.0.0](https://github.com/mljs/regression-multivariate-linear/compare/v1.2.0...v2.0.0) (2019-05-01)
 
 
