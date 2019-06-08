@@ -15,7 +15,16 @@ export default class MultivariateLinearRegression {
       if (intercept) {
         x.addColumn(new Array(x.rows).fill(1));
       }
-      const beta = new SVD(x, { autoTranspose: true }).solve(y);
+      const xx = x.transpose()
+        .mmul(x);
+      const xy = x.transpose()
+        .mmul(y);
+      const invxx = new SVD(xx)
+        .inverse();
+      const beta = xy
+        .transpose()
+        .mmul(invxx)
+        .transpose();
       this.weights = beta.to2DArray();
       this.inputs = x.columns;
       this.outputs = y.columns;
