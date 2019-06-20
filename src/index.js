@@ -1,4 +1,4 @@
-import Matrix, { SVD, pseudoInverse, MatrixTransposeView } from 'ml-matrix';
+import Matrix, { SVD, pseudoInverse } from 'ml-matrix';
 
 export default class MultivariateLinearRegression {
   constructor(x, y, options = {}) {
@@ -15,9 +15,10 @@ export default class MultivariateLinearRegression {
       if (intercept) {
         x.addColumn(new Array(x.rows).fill(1));
       }
-      const xx = x.transpose()
+      let xt = x.transpose();
+      const xx = xt
         .mmul(x);
-      const xy = x.transpose()
+      const xy = xt
         .mmul(y);
       const invxx = new SVD(xx)
         .inverse();
@@ -46,9 +47,7 @@ export default class MultivariateLinearRegression {
             .reduce((a, b) => a + b) /
           (y.rows - x.columns);
         this.stdError = Math.sqrt(variance);
-        this.stdErrorMatrix = pseudoInverse(
-          new MatrixTransposeView(x).mmul(x)
-        ).mul(variance);
+        this.stdErrorMatrix = pseudoInverse(xx).mul(variance);
         this.stdErrors = this.stdErrorMatrix
           .diagonal()
           .map((d) => Math.sqrt(d));
