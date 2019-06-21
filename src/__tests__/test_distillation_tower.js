@@ -1,16 +1,18 @@
 import MLR from '..';
 
-var fs = require('fs');
+const fs = require('fs');
 
-var Papa = require('papaparse');
+const Papa = require('papaparse');
+
+const { join } = require('path');
 
 // Dataset -> https://openmv.net/info/distillation-tower
 
 describe('multivariate linear regression', () => {
   it('should work with large dataset with intercept', () => {
-    const ymatrix = fs.readFileSync('./data/ydistillationjs.csv', 'utf8');
+    const ymatrix = fs.readFileSync(join(__dirname, '../../data/ydistillationjs.csv'), 'utf8');
     const y = Papa.parse(ymatrix, { delimiter: ',', dynamicTyping: true }).data;
-    const xmatrix = fs.readFileSync('./data/xdistillationjs.csv', 'utf8');
+    const xmatrix = fs.readFileSync(join(__dirname, '../../data/xdistillationjs.csv'), 'utf8');
     const x = Papa.parse(xmatrix, { delimiter: ',', dynamicTyping: true }).data;
     //
     const mlr = new MLR(x, y, { intercept: true });
@@ -24,9 +26,9 @@ describe('multivariate linear regression', () => {
     expect(mlr.predict(x[250]).map(Math.round)).toStrictEqual([36]);
   });
   it('should work with large dataset without intercept', () => {
-    const ymatrix = fs.readFileSync('./data/ydistillationjs.csv', 'utf8');
+    const ymatrix = fs.readFileSync(join(__dirname, '../../data/ydistillationjs.csv'), 'utf8');
     const y = Papa.parse(ymatrix, { delimiter: ',', dynamicTyping: true }).data;
-    const xmatrix = fs.readFileSync('./data/xdistillationjs.csv', 'utf8');
+    const xmatrix = fs.readFileSync(join(__dirname, '../../data/xdistillationjs.csv'), 'utf8');
     const x = Papa.parse(xmatrix, { delimiter: ',', dynamicTyping: true }).data;
     //
     var mlr = new MLR(x, y, { intercept: false });
