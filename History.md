@@ -1,3 +1,13 @@
+## [2.0.2](https://github.com/mljs/regression-multivariate-linear/compare/v2.0.1...v2.0.2) (2019-06-22)
+
+
+### Bug Fixes
+
+* **ts:** correct TypeScript definitions ([f3346c4](https://github.com/mljs/regression-multivariate-linear/commit/f3346c4))
+* change algorithm to fix bug with some datasets ([fc3e052](https://github.com/mljs/regression-multivariate-linear/commit/fc3e052))
+
+
+
 ## [2.0.1](https://github.com/mljs/regression-multivariate-linear/compare/v2.0.0...v2.0.1) (2019-06-02)
 
 
