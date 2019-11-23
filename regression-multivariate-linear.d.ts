@@ -15,6 +15,7 @@ declare module 'ml-regression-multivariate-linear' {
     stdErrorMatrix: Matrix;
     stdErrors: number[];
     tStats: number[];
+    weights: number[][];
 
     constructor(
       x: number[][] | AbstractMatrix,
