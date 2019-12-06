@@ -1,3 +1,12 @@
+## [2.0.3](https://github.com/mljs/regression-multivariate-linear/compare/v2.0.2...v2.0.3) (2019-12-06)
+
+
+### Bug Fixes
+
+* add weights to TS definition ([#16](https://github.com/mljs/regression-multivariate-linear/issues/16)) ([773df98](https://github.com/mljs/regression-multivariate-linear/commit/773df986b3c5530d0f3f0a1f8517dbdc050d1f04))
+
+
+
 ## [2.0.2](https://github.com/mljs/regression-multivariate-linear/compare/v2.0.1...v2.0.2) (2019-06-22)
 
 
