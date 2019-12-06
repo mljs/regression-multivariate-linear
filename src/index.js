@@ -16,12 +16,9 @@ export default class MultivariateLinearRegression {
         x.addColumn(new Array(x.rows).fill(1));
       }
       let xt = x.transpose();
-      const xx = xt
-        .mmul(x);
-      const xy = xt
-        .mmul(y);
-      const invxx = new SVD(xx)
-        .inverse();
+      const xx = xt.mmul(x);
+      const xy = xt.mmul(y);
+      const invxx = new SVD(xx).inverse();
       const beta = xy
         .transpose()
         .mmul(invxx)
@@ -52,7 +49,7 @@ export default class MultivariateLinearRegression {
           .diagonal()
           .map((d) => Math.sqrt(d));
         this.tStats = this.weights.map((d, i) =>
-          (this.stdErrors[i] === 0 ? 0 : d[0] / this.stdErrors[i])
+          this.stdErrors[i] === 0 ? 0 : d[0] / this.stdErrors[i],
         );
       }
     }
@@ -109,23 +106,23 @@ export default class MultivariateLinearRegression {
       intercept: this.intercept,
       summary: this.statistics
         ? {
-          regressionStatistics: {
-            standardError: this.stdError,
-            observations: this.outputs
-          },
-          variables: this.weights.map((d, i) => {
-            return {
-              label:
+            regressionStatistics: {
+              standardError: this.stdError,
+              observations: this.outputs,
+            },
+            variables: this.weights.map((d, i) => {
+              return {
+                label:
                   i === this.weights.length - 1
                     ? 'Intercept'
                     : `X Variable ${i + 1}`,
-              coefficients: d,
-              standardError: this.stdErrors[i],
-              tStat: this.tStats[i]
-            };
-          })
-        }
-        : undefined
+                coefficients: d,
+                standardError: this.stdErrors[i],
+                tStat: this.tStats[i],
+              };
+            }),
+          }
+        : undefined,
     };
   }
 

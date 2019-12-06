@@ -1,8 +1,7 @@
 # ml-regression-multivariate-linear
 
 [![NPM version][npm-image]][npm-url]
-[![build status][travis-image]][travis-url]
-[![Test coverage][codecov-image]][codecov-url]
+[![build status][ci-image]][ci-url]
 [![npm download][download-image]][download-url]
 
 Multivariate linear regression.
@@ -17,22 +16,32 @@ Multivariate linear regression.
 
 **Arguments**
 
-* `x`: Matrix containing the inputs
-* `y`: Matrix containing the outputs
+- `x`: Matrix containing the inputs
+- `y`: Matrix containing the outputs
 
 **Options**
 
-* `intercept`: boolean indicating if intercept terms should be computed (default: true)
-* `statistics`: boolean for calculating and returning regression statistics (default: true)
+- `intercept`: boolean indicating if intercept terms should be computed (default: true)
+- `statistics`: boolean for calculating and returning regression statistics (default: true)
 
 ## Usage
 
 ```js
-import MLR from 'ml-regression-multivariate-linear';
+import MLR from "ml-regression-multivariate-linear";
 
-const x = [[0, 0], [1, 2], [2, 3], [3, 4]];
+const x = [
+  [0, 0],
+  [1, 2],
+  [2, 3],
+  [3, 4]
+];
 // Y0 = X0 * 2, Y1 = X1 * 2, Y2 = X0 + X1
-const y = [[0, 0, 0], [2, 4, 3], [4, 6, 5], [6, 8, 7]];
+const y = [
+  [0, 0, 0],
+  [2, 4, 3],
+  [4, 6, 5],
+  [6, 8, 7]
+];
 const mlr = new MLR(x, y);
 console.log(mlr.predict([3, 3]));
 // [6, 6, 6]
@@ -42,11 +51,9 @@ console.log(mlr.predict([3, 3]));
 
 [MIT](./LICENSE)
 
-[npm-image]: https://img.shields.io/npm/v/ml-regression-multivariate-linear.svg?style=flat-square
+[npm-image]: https://img.shields.io/npm/v/ml-regression-multivariate-linear.svg
 [npm-url]: https://npmjs.org/package/ml-regression-multivariate-linear
-[travis-image]: https://img.shields.io/travis/mljs/regression-multivariate-linear/master.svg?style=flat-square
-[travis-url]: https://travis-ci.org/mljs/regression-multivariate-linear
-[codecov-image]: https://img.shields.io/codecov/c/github/mljs/regression-multivariate-linear.svg?style=flat-square
-[codecov-url]: https://codecov.io/github/mljs/regression-multivariate-linear
-[download-image]: https://img.shields.io/npm/dm/ml-regression-multivariate-linear.svg?style=flat-square
+[ci-image]: https://github.com/mljs/regression-multivariate-linear/workflows/Node.js%20CI/badge.svg?branch=master
+[ci-url]: https://github.com/mljs/regression-multivariate-linear/actions?query=workflow%3A%22Node.js+CI%22
+[download-image]: https://img.shields.io/npm/dm/ml-regression-multivariate-linear.svg
 [download-url]: https://npmjs.org/package/ml-regression-multivariate-linear

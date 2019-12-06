@@ -1,18 +1,23 @@
 import MLR from '..';
 
 const fs = require('fs');
+const { join } = require('path');
 
 const Papa = require('papaparse');
-
-const { join } = require('path');
 
 // Dataset -> https://openmv.net/info/distillation-tower
 
 describe('multivariate linear regression', () => {
   it('should work with large dataset with intercept', () => {
-    const ymatrix = fs.readFileSync(join(__dirname, '../../data/ydistillationjs.csv'), 'utf8');
+    const ymatrix = fs.readFileSync(
+      join(__dirname, '../../data/ydistillationjs.csv'),
+      'utf8',
+    );
     const y = Papa.parse(ymatrix, { delimiter: ',', dynamicTyping: true }).data;
-    const xmatrix = fs.readFileSync(join(__dirname, '../../data/xdistillationjs.csv'), 'utf8');
+    const xmatrix = fs.readFileSync(
+      join(__dirname, '../../data/xdistillationjs.csv'),
+      'utf8',
+    );
     const x = Papa.parse(xmatrix, { delimiter: ',', dynamicTyping: true }).data;
     //
     const mlr = new MLR(x, y, { intercept: true });
@@ -26,12 +31,18 @@ describe('multivariate linear regression', () => {
     expect(mlr.predict(x[250]).map(Math.round)).toStrictEqual([36]);
   });
   it('should work with large dataset without intercept', () => {
-    const ymatrix = fs.readFileSync(join(__dirname, '../../data/ydistillationjs.csv'), 'utf8');
+    const ymatrix = fs.readFileSync(
+      join(__dirname, '../../data/ydistillationjs.csv'),
+      'utf8',
+    );
     const y = Papa.parse(ymatrix, { delimiter: ',', dynamicTyping: true }).data;
-    const xmatrix = fs.readFileSync(join(__dirname, '../../data/xdistillationjs.csv'), 'utf8');
+    const xmatrix = fs.readFileSync(
+      join(__dirname, '../../data/xdistillationjs.csv'),
+      'utf8',
+    );
     const x = Papa.parse(xmatrix, { delimiter: ',', dynamicTyping: true }).data;
     //
-    var mlr = new MLR(x, y, { intercept: false });
+    let mlr = new MLR(x, y, { intercept: false });
     expect(mlr.predict(x[0]).map(Math.round)).toStrictEqual([33]);
     expect(mlr.predict(x[10]).map(Math.round)).toStrictEqual([34]);
     expect(mlr.predict(x[20]).map(Math.round)).toStrictEqual([41]);
