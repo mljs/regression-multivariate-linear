@@ -1,7 +1,7 @@
-import MLR from "..";
+import MLR from '..';
 
-describe("multivariate linear regression", () => {
-  it("should work with large dataset with intercept", () => {
+describe('multivariate linear regression', () => {
+  it('should work with large dataset with intercept', () => {
     const yTrainMatrix = [
       [0],
       [0],
@@ -1357,7 +1357,7 @@ describe("multivariate linear regression", () => {
     expect(mlr.predict(xTrainMatrix[60]).map(Math.round)).toStrictEqual([1218]);
     expect(mlr.predict(xTrainMatrix[164]).map(Math.round)).toStrictEqual([-71]);
   });
-  it("should work with large dataset without intercept", () => {
+  it('should work with large dataset without intercept', () => {
     const yTrainMatrix = [
       [0],
       [0],
