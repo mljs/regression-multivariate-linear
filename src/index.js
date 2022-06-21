@@ -19,10 +19,7 @@ export default class MultivariateLinearRegression {
       const xx = xt.mmul(x);
       const xy = xt.mmul(y);
       const invxx = new SVD(xx).inverse();
-      const beta = xy
-        .transpose()
-        .mmul(invxx)
-        .transpose();
+      const beta = xy.transpose().mmul(invxx).transpose();
       this.weights = beta.to2DArray();
       this.inputs = x.columns;
       this.outputs = y.columns;
