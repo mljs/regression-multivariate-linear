@@ -1,4 +1,4 @@
-import Matrix, { SVD, pseudoInverse } from 'ml-matrix';
+import { Matrix, SVD, pseudoInverse } from "ml-matrix";
 
 export default class MultivariateLinearRegression {
   constructor(x, y, options = {}) {
@@ -49,7 +49,7 @@ export default class MultivariateLinearRegression {
           .diagonal()
           .map((d) => Math.sqrt(d));
         this.tStats = this.weights.map((d, i) =>
-          this.stdErrors[i] === 0 ? 0 : d[0] / this.stdErrors[i],
+          this.stdErrors[i] === 0 ? 0 : d[0] / this.stdErrors[i]
         );
       }
     }
@@ -57,7 +57,7 @@ export default class MultivariateLinearRegression {
 
   predict(x) {
     if (Array.isArray(x)) {
-      if (typeof x[0] === 'number') {
+      if (typeof x[0] === "number") {
         return this._predict(x);
       } else if (Array.isArray(x[0])) {
         const y = new Array(x.length);
@@ -73,7 +73,7 @@ export default class MultivariateLinearRegression {
       }
       return y;
     }
-    throw new TypeError('x must be a matrix or array of numbers');
+    throw new TypeError("x must be a matrix or array of numbers");
   }
 
   _predict(x) {
@@ -94,12 +94,12 @@ export default class MultivariateLinearRegression {
   }
 
   score() {
-    throw new Error('score method is not implemented yet');
+    throw new Error("score method is not implemented yet");
   }
 
   toJSON() {
     return {
-      name: 'multivariateLinearRegression',
+      name: "multivariateLinearRegression",
       weights: this.weights,
       inputs: this.inputs,
       outputs: this.outputs,
@@ -114,7 +114,7 @@ export default class MultivariateLinearRegression {
               return {
                 label:
                   i === this.weights.length - 1
-                    ? 'Intercept'
+                    ? "Intercept"
                     : `X Variable ${i + 1}`,
                 coefficients: d,
                 standardError: this.stdErrors[i],
@@ -127,8 +127,8 @@ export default class MultivariateLinearRegression {
   }
 
   static load(model) {
-    if (model.name !== 'multivariateLinearRegression') {
-      throw new Error('not a MLR model');
+    if (model.name !== "multivariateLinearRegression") {
+      throw new Error("not a MLR model");
     }
     return new MultivariateLinearRegression(true, model);
   }

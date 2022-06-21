@@ -1,10 +1,29 @@
-import x02Data from '../../data/x02';
-import x42Data from '../../data/x42';
+import MLR from "..";
+import x02Data from "../../data/x02";
+import x42Data from "../../data/x42";
 
-import MLR from '..';
+describe("multivariate linear regression", () => {
+  it("should work with 2 inputs and 3 outputs", () => {
+    const mlr = new MLR(
+      [
+        [0, 0],
+        [1, 2],
+        [2, 3],
+        [3, 4],
+      ],
+      // y0 = 2 * x0, y1 = 2 * x1, y2 = x0 + x1
+      [
+        [0, 0, 0],
+        [2, 4, 3],
+        [4, 6, 5],
+        [6, 8, 7],
+      ]
+    );
+    expect(mlr.predict([2, 3]).map(Math.round)).toStrictEqual([4, 6, 5]);
+    expect(mlr.predict([4, 4]).map(Math.round)).toStrictEqual([8, 8, 8]);
+  });
 
-describe('multivariate linear regression', () => {
-  it('should work with 2 inputs and 3 outputs', () => {
+  it("should work with 2 inputs and 3 outputs - intercept is 0", () => {
     const mlr = new MLR(
       [
         [0, 0],
@@ -19,33 +38,13 @@ describe('multivariate linear regression', () => {
         [4, 6, 5],
         [6, 8, 7],
       ],
+      { intercept: true }
     );
     expect(mlr.predict([2, 3]).map(Math.round)).toStrictEqual([4, 6, 5]);
     expect(mlr.predict([4, 4]).map(Math.round)).toStrictEqual([8, 8, 8]);
   });
 
-  it('should work with 2 inputs and 3 outputs - intercept is 0', () => {
-    const mlr = new MLR(
-      [
-        [0, 0],
-        [1, 2],
-        [2, 3],
-        [3, 4],
-      ],
-      // y0 = 2 * x0, y1 = 2 * x1, y2 = x0 + x1
-      [
-        [0, 0, 0],
-        [2, 4, 3],
-        [4, 6, 5],
-        [6, 8, 7],
-      ],
-      { intercept: true },
-    );
-    expect(mlr.predict([2, 3]).map(Math.round)).toStrictEqual([4, 6, 5]);
-    expect(mlr.predict([4, 4]).map(Math.round)).toStrictEqual([8, 8, 8]);
-  });
-
-  it('should work with 2 inputs and 3 outputs - intercept is not 0', () => {
+  it("should work with 2 inputs and 3 outputs - intercept is not 0", () => {
     const mlr = new MLR(
       [
         [0, 0],
@@ -60,37 +59,29 @@ describe('multivariate linear regression', () => {
         [3, 8, 15],
         [5, 10, 17],
       ],
-      { intercept: true },
+      { intercept: true }
     );
     expect(mlr.predict([2, 3]).map(Math.round)).toStrictEqual([3, 8, 15]);
     expect(mlr.predict([4, 4]).map(Math.round)).toStrictEqual([7, 10, 18]);
   });
 
-  it('should work with 2 inputs and 1 output (x02)', () => {
+  it("should work with 2 inputs and 1 output (x02)", () => {
     const mlr = new MLR(x02Data.x, x02Data.y, { intercept: false });
     const prediction = mlr.predict(x02Data.x);
     expect(prediction[0][0]).toBeCloseTo(38.05);
   });
 
-  it('should work with 2 inputs and 1 output (x42)', () => {
+  it("should work with 2 inputs and 1 output (x42)", () => {
     const mlr = new MLR(x42Data.x, x42Data.y, { intercept: false });
     const expectedWeights = [
-      83.125,
-      2.625,
-      3.125,
-      3.75,
-      -2.0,
-      -4.375,
-      0.0,
-      1.5,
-      -0.25,
+      83.125, 2.625, 3.125, 3.75, -2.0, -4.375, 0.0, 1.5, -0.25,
     ];
     for (let i = 0; i < mlr.weights.length; i++) {
       expect(mlr.weights[i][0]).toBeCloseTo(expectedWeights[i]);
     }
   });
 
-  it('toJSON and load', () => {
+  it("toJSON and load", () => {
     const mlr = new MLR(
       [
         [0, 0],
@@ -103,7 +94,7 @@ describe('multivariate linear regression', () => {
         [2, 4, 3],
         [4, 6, 5],
         [6, 8, 7],
-      ],
+      ]
     );
     const json = JSON.parse(JSON.stringify(mlr));
     const newMlr = MLR.load(json);
@@ -111,7 +102,7 @@ describe('multivariate linear regression', () => {
     expect(newMlr.predict([4, 4]).map(Math.round)).toStrictEqual([8, 8, 8]);
   });
 
-  it('datamining test 1-1', () => {
+  it("datamining test 1-1", () => {
     const X = [[4.47], [208.3], [3400.0]];
     const Y = [[0.51], [105.66], [1800.0]];
     const mlr = new MLR(X, Y, { intercept: true });
@@ -119,7 +110,7 @@ describe('multivariate linear regression', () => {
     expect(mlr.weights[1][0]).toBeCloseTo(-3.29);
   });
 
-  it('datamining test 1-2', () => {
+  it("datamining test 1-2", () => {
     const X = [
       [4.47, 1],
       [208.3, 1],
@@ -131,7 +122,7 @@ describe('multivariate linear regression', () => {
     expect(mlr.weights[1][0]).toBeCloseTo(-3.29);
   });
 
-  it('datamining test 2', () => {
+  it("datamining test 2", () => {
     const X = [
       [1, 1, 1],
       [2, 1, 1],
@@ -151,7 +142,7 @@ describe('multivariate linear regression', () => {
     expect(mlr.weights[2][1]).toBeCloseTo(0);
   });
 
-  it('datamining statistics test', () => {
+  it("datamining statistics test", () => {
     const X = [
       [3, 1],
       [4, 2],
@@ -168,13 +159,13 @@ describe('multivariate linear regression', () => {
     expect(mlr.summary.variables[1].coefficients[0]).toBeCloseTo(5.25);
     expect(mlr.summary.variables[1].standardError).toBeCloseTo(2.43);
     expect(mlr.summary.variables[1].tStat).toBeCloseTo(2.16);
-    expect(mlr.summary.variables[2].label).toStrictEqual('Intercept');
+    expect(mlr.summary.variables[2].label).toBe("Intercept");
     expect(mlr.summary.variables[2].coefficients[0]).toBeCloseTo(13.75);
     expect(mlr.summary.variables[2].standardError).toBeCloseTo(7.81);
     expect(mlr.summary.variables[2].tStat).toBeCloseTo(1.76);
   });
 
-  it('should optionally return statistics', () => {
+  it("should optionally return statistics", () => {
     const X = [
       [3, 1],
       [4, 2],
