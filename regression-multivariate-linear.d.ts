@@ -1,8 +1,8 @@
-import { AbstractMatrix, Matrix } from "ml-matrix";
+import { AbstractMatrix, Matrix } from 'ml-matrix';
 
 declare namespace MultivariateLinearRegression {
   export interface MLRModel {
-    name: "multivariateLinearRegression";
+    name: 'multivariateLinearRegression';
   }
 
   export interface MLROptions {
@@ -21,10 +21,12 @@ declare class MultivariateLinearRegression {
   constructor(
     x: number[][] | AbstractMatrix,
     y: number[][] | AbstractMatrix,
-    options?: MultivariateLinearRegression.MLROptions
+    options?: MultivariateLinearRegression.MLROptions,
   );
 
-  static load(model: MultivariateLinearRegression.MLRModel): MultivariateLinearRegression;
+  static load(
+    model: MultivariateLinearRegression.MLRModel,
+  ): MultivariateLinearRegression;
 
   predict(x: number[]): number[];
   predict(x: number[][]): number[][];
