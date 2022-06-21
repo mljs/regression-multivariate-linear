@@ -177,4 +177,18 @@ describe("multivariate linear regression", () => {
     const mlr = new MLR(X, Y, { statistics: false }).toJSON();
     expect(mlr.summary).toBeUndefined();
   });
+  it("should throw on wrong data type", () => {
+    const X = [
+      [3, 1],
+      [4, 2],
+      [10, 3],
+      [6, 4],
+      [7, 5],
+    ];
+    const Y = [[19], [28], [37], [46], [40]];
+    const mlr = new MLR(X, Y, { statistics: false });
+    expect(() => {
+      mlr.predict(3);
+    }).toThrow("x must be a matrix or array of numbers");
+  });
 });
